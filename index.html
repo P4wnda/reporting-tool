@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://github.com https://avatars.githubusercontent.com data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Reporting Tool</title>
+  <link rel="icon" href="/blog/assets/img/favicons/favicon.ico">
+  <link rel="stylesheet" href="styles.css?v=20260518">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="mark" href="https://github.com/P4wnda" target="_blank" rel="noopener" aria-label="Open P4wnda on GitHub">
+        <img src="https://github.com/P4wnda.png" alt="P4wnda GitHub avatar">
+      </a>
+      <div>
+        <h1>Reporting Tool</h1>
+        <p id="summary">No report loaded</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <label class="file-button">
+        Import Run JSON
+        <input id="importFile" type="file" accept="application/json,.json">
+      </label>
+      <button type="button" data-action="add-finding">Add Finding</button>
+      <button type="button" data-action="export-json">Export JSON</button>
+      <button type="button" data-action="export-md">Export Markdown</button>
+      <button type="button" class="danger" data-action="reset-report">Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="side-section">
+        <div class="side-head">
+          <h2>Findings</h2>
+          <span id="findingCount">0</span>
+        </div>
+        <div id="findingList" class="finding-list"></div>
+      </section>
+      <section class="side-section">
+        <div class="side-head">
+          <h2>Imported Evidence</h2>
+          <span id="evidenceCount">0</span>
+        </div>
+        <div id="evidenceList" class="evidence-list"></div>
+      </section>
+    </aside>
+
+    <section class="workspace">
+      <section class="report-grid">
+        <label>Report Title<input id="reportTitle" data-report="title" placeholder="Internal Penetration Test Report"></label>
+        <label>Client / Lab<input id="reportClient" data-report="client" placeholder="Client, lab, or platform"></label>
+        <label>Target<input id="reportTarget" data-report="target" placeholder="Machine or assessment name"></label>
+        <label>Scope<textarea id="reportScope" data-report="scope" rows="3" placeholder="IPs, domains, URLs, exclusions"></textarea></label>
+        <label>Executive Summary<textarea id="reportSummary" data-report="summary" rows="5" placeholder="High-level risk and outcome"></textarea></label>
+      </section>
+
+      <section class="editor" id="findingEditor">
+        <div class="empty-state">
+          <h2>No finding selected</h2>
+          <p>Import a Pentest Cheatsheet run JSON, then add findings and attach relevant evidence.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <template id="findingTemplate">
+    <form class="finding-form">
+      <div class="editor-head">
+        <div>
+          <h2>Finding</h2>
+          <p id="selectedMeta"></p>
+        </div>
+        <button type="button" class="danger" data-action="delete-finding">Delete</button>
+      </div>
+
+      <div class="field-grid">
+        <label>Title<input data-finding="title" required placeholder="SMB signing disabled"></label>
+        <label>Severity<select data-finding="severity">
+          <option>Critical</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+          <option>Informational</option>
+        </select></label>
+        <label>CVSS<input data-finding="cvss" placeholder="8.1"></label>
+        <label>Status<select data-finding="status">
+          <option>Open</option>
+          <option>Accepted Risk</option>
+          <option>Retest Required</option>
+          <option>Remediated</option>
+        </select></label>
+        <label>Affected Asset<input data-finding="asset" placeholder="10.10.10.10 / web01"></label>
+        <label>Category<input data-finding="category" placeholder="Network / Web / AD / Host"></label>
+      </div>
+
+      <label>Description<textarea data-finding="description" rows="5" placeholder="What was found and where"></textarea></label>
+      <label>Impact<textarea data-finding="impact" rows="4" placeholder="Why it matters"></textarea></label>
+      <label>Evidence<textarea data-finding="evidence" rows="7" placeholder="Commands, output excerpts, affected paths"></textarea></label>
+      <section class="screenshots">
+        <div class="screenshots-head">
+          <div>
+            <h3>Screenshots</h3>
+            <p>Paste an image while this finding is open, or upload screenshots.</p>
+          </div>
+          <label class="file-button small">
+            Add Images
+            <input data-screenshot-upload type="file" accept="image/*" multiple>
+          </label>
+        </div>
+        <div id="screenshotList" class="screenshot-list"></div>
+      </section>
+      <label>Reproduction Steps<textarea data-finding="reproduction" rows="6" placeholder="Steps to reproduce"></textarea></label>
+      <label>Remediation<textarea data-finding="remediation" rows="5" placeholder="Concrete fix guidance"></textarea></label>
+      <label>References<textarea data-finding="references" rows="3" placeholder="URLs, CVEs, vendor guidance"></textarea></label>
+    </form>
+  </template>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=20260518"></script>
+</body>
+</html>
