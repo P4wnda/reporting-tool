@@ -25,6 +25,13 @@ The tool does not guess vulnerabilities automatically. It helps turn your notes 
 - Export full report JSON
 - Export Markdown report
 
+## Related Tools
+
+- [Project Hub](https://p4wnda.github.io/) - links to all p4wnda GitHub Pages projects.
+- [Blog](https://p4wnda.github.io/blog/) - writeups, notes, and lab documentation.
+- [Pentest Cheatsheet](https://p4wnda.github.io/pentest/) - exports the run JSON imported by this reporting tool.
+- [CTF Checklists](https://p4wnda.github.io/checklists/) - standalone and Active Directory box checklists linked to cheatsheet commands.
+
 ## Files
 
 ```text
